@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Channel;
+use App\Comment;
 use App\Repositories\ModelHelper as Model;
 use App\Error\ErrorHandler;
 
@@ -11,7 +11,7 @@ class CommentController extends Controller
 {
     use ErrorHandler;
     /**
-     * @var Repository
+     * @var Repository ModelHelper
      */
     protected $model;
     /**
@@ -21,9 +21,9 @@ class CommentController extends Controller
      */
     public function __construct(Comment $comment)
     {
-        $this->model = new Repository( $comment );
+        $this->model = new Model( $comment );
         // Protect all except reading
-        $this->middleware('auth:api', ['except' => ['index', 'show'] ]);
+        $this->middleware('auth', ['except' => ['index', 'show'] ]);
     }
 
     /**

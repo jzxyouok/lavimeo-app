@@ -18,6 +18,12 @@ class VideoController extends Controller
      */
     use ErrorHandler;
 
+    /**
+     * VideoController constructor.
+     *
+     * @param Video $video
+     */
+
     protected $model;
 
     public function __construct(Video $video)

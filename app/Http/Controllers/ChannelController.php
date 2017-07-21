@@ -11,7 +11,7 @@ class ChannelController extends Controller
 {
     use ErrorHandler;
     /**
-     * @var Repository
+     * @var Repository ModelHelper
      */
     protected $model;
     /**
@@ -21,9 +21,9 @@ class ChannelController extends Controller
      */
     public function __construct(Channel $channel)
     {
-        $this->model = new Repository( $channel );
+        $this->model = new Model( $channel );
         // Protect all except reading
-        $this->middleware('auth:api', ['except' => ['index', 'show'] ]);
+        $this->middleware('auth', ['except' => ['index', 'show'] ]);
     }
 
     /**
