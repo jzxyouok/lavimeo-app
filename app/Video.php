@@ -21,7 +21,7 @@ class Video extends Model
         'allow_comments' => 'boolean'
     ];
 
-    
+
 	/**
 	* Validation rules
 	*
@@ -38,6 +38,8 @@ class Video extends Model
             'thumbnail' => 'required|url',
             'channel_id' => 'required|integer'
         ];
+
+        
         $updateRule = [
             'title' => 'max:200',
             'description' => 'min:10',

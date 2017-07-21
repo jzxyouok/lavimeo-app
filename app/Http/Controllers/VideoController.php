@@ -57,6 +57,20 @@ class VideoController extends Controller
     {
         //run the validation befor create new video
         $this->validateBeforeCreate($request);
+
+        // validate the channel id belongs to user
+        if( ! $request->user()->channels()->find($request->get('channel_id', 0)) )
+            return $this->errorForbidden('You can only add video in your channel.');
+
+
+        return $request->user()
+            ->videos()->create(
+                $request->only(
+                    $this->model
+                    ->getModel()
+                    ->fillable
+                )
+            );
     }
 
     /**
@@ -67,7 +81,7 @@ class VideoController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->model->with('user')->findOrFail($id);
     }
 
     /**
@@ -90,7 +104,12 @@ class VideoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validateBeforeUpdate($request);
+
+        if (! $this->model->update($request->only($this->model->getModel()->fillable), $id) ) {
+            return $this->errorBadRequest('Unable to update.');
+        }
+        return $this->model->find($id);
     }
 
     /**
@@ -101,6 +120,10 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // run before delete checks
+        if (! $request->user()->videos()->find($id)) {
+            return $this->errorNotFound('Video not found.');
+        }
+        return $this->model->delete($id) ? $this->noContent() : $this->errorBadRequest();
     }
 }
