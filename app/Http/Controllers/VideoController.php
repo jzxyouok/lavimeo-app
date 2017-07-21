@@ -23,6 +23,9 @@ class VideoController extends Controller
     public function __construct(Video $video)
     {
         $this->model = new Model($video);
+
+        // Protect all except reading
+        $this->middleware('auth', ['except' => ['index', 'show'] ]);
     }
     /**
      * Display a listing of the resource.
@@ -52,7 +55,8 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //run the validation befor create new video
+        $this->validateBeforeCreate($request);
     }
 
     /**

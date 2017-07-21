@@ -10,4 +10,29 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+     /**
+     * Before create method to run for validation
+     *
+     * @param $request
+     */
+    public function validateBeforeCreate($request)
+    {
+        // run the validation
+        $this->validate( $request, $this->model->getModel()->getValidationRules());
+    }
+
+    
+    /**
+     * Before update method to run for validation
+     *
+     * @param $request
+     */
+    public function validateBeforeUpdate($request)
+    {
+        // run the validation
+        $this->validate( $request, $this->model->getModel()->getValidationRules(true));
+    }
+
+
 }
