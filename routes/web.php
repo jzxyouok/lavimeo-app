@@ -16,3 +16,6 @@ Route::resource('channels', 'ChannelController',[ 'except' => [
 Route::resource('commnets', 'CommentController',[ 'except' => [
 	'create', 'edit'
 ]]);
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

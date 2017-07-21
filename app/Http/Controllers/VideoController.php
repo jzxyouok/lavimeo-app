@@ -4,8 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Video;
+use App\Repositories\ModelHelper as Model;
+use App\Error\ErrorHandler;
+
+
+
 class VideoController extends Controller
 {
+
+    /**
+     * Error Handler Trait
+     */
+    use ErrorHandler;
+
+    protected $model;
+
+    public function __construct(Video $video)
+    {
+        $this->model = new Model($video);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +31,7 @@ class VideoController extends Controller
      */
     public function index()
     {
-        //
+        return $this->model->with('user')->latest()->paginate();
     }
 
     /**
