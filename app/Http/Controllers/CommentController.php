@@ -3,9 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Channel;
+use App\Repositories\ModelHelper as Model;
+use App\Error\ErrorHandler;
 
 class CommentController extends Controller
 {
+    use ErrorHandler;
+    /**
+     * @var Repository
+     */
+    protected $model;
+    /**
+     * CommentController constructor.
+     *
+     * @param Comment $comment
+     */
+    public function __construct(Comment $comment)
+    {
+        $this->model = new Repository( $comment );
+        // Protect all except reading
+        $this->middleware('auth:api', ['except' => ['index', 'show'] ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +33,13 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = $this->model->with('user')->latest();
+
+        // check for video_id in request
+        if ($vid =  $request->get('video_id') ) {
+            $comments = $comments->where('video_id' , $vid);
+        }
+        return $comments->paginate();
     }
 
     /**
@@ -34,7 +60,11 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // run the validation
+        $this->validateBeforeCreate($request);
+
+        return $request->user()->comments()
+            ->create( $request->only($this->model->getModel()->fillable));
     }
 
     /**
@@ -45,7 +75,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->model->with('user')->findOrFail($id);
     }
 
     /**
@@ -68,7 +98,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validateBeforeUpdate($request);
+
+        if (! $this->model->update($request->only($this->model->getModel()->fillable), $id) ) {
+            return $this->errorBadRequest('Unable to update.');
+        }
+        return $this->model->find($id);
     }
 
     /**
@@ -79,6 +114,10 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // run before delete checks
+        if (! $request->user()->comments()->find($id)) {
+            return $this->errorNotFound('Comment not found.');
+        }
+        return $this->model->delete($id) ? $this->noContent() : $this->errorBadRequest();
     }
 }
