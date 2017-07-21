@@ -3,9 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Channel;
+use App\Repositories\ModelHelper as Model;
+use App\Error\ErrorHandler;
 
 class ChannelController extends Controller
 {
+    use ErrorHandler;
+    /**
+     * @var Repository
+     */
+    protected $model;
+    /**
+     * ChannelController constructor.
+     *
+     * @param Channel $channel
+     */
+    public function __construct(Channel $channel)
+    {
+        $this->model = new Repository( $channel );
+        // Protect all except reading
+        $this->middleware('auth:api', ['except' => ['index', 'show'] ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +33,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        //
+        return $this->model->with('user')->latest()->paginate();
     }
 
     /**
@@ -34,7 +54,11 @@ class ChannelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // run the validation
+        $this->validateBeforeCreate($request);
+
+        return $request->user()->channels()
+            ->create( $request->only($this->model->getModel()->fillable));
     }
 
     /**
@@ -45,7 +69,7 @@ class ChannelController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->model->with('user')->findOrFail($id);
     }
 
     /**
@@ -68,7 +92,15 @@ class ChannelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validateBeforeUpdate($request);
+        // validate the channel id belongs to user
+        if( ! $request->user()->channels()->find($id) ) {
+            return $this->errorForbidden('You can only edit your channel.');
+        }
+        if (! $this->model->update($request->only($this->model->getModel()->fillable), $id) ) {
+            return $this->errorBadRequest('Unable to update.');
+        }
+        return $this->model->find($id);
     }
 
     /**
@@ -79,6 +111,10 @@ class ChannelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // run before delete checks
+        if (! $request->user()->channels()->find($id)) {
+            return $this->errorNotFound('Channel not found.');
+        }
+        return $this->model->delete($id) ? $this->noContent() : $this->errorBadRequest();
     }
 }
