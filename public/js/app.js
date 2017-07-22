@@ -45409,7 +45409,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // change the title of page
         window.document.title = 'Trending on QTube';
 
-        axios.get('/api/videos?trending=true&categories=true').then(function (res) {
+        axios.get('videos?trending=true&categories=true').then(function (res) {
             _this.$Progress.finish();
             _this.videos = res.data;
             _this.categories = res.data.categories;
@@ -45774,7 +45774,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$Progress.start();
 
-            axios.get('/api/channels/' + this.id + '?videos=true').then(function (res) {
+            axios.get('channels/' + this.id + '?videos=true').then(function (res) {
                 _this.$Progress.finish();
                 _this.channel = res.data;
 
@@ -46769,7 +46769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             vm.video.thumbnail = vm.videoThumb;
             vm.video.channel_id = vm.$root.channel.id;
 
-            axios.post('/api/videos', vm.video).then(function (res) {
+            axios.post('videos', vm.video).then(function (res) {
                 vm.video = {};
                 vm.loading = false;
                 alert('Video has been uploaded, Go to home page to see it.');
