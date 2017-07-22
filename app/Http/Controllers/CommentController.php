@@ -31,7 +31,7 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $comments = $this->model->with('user')->latest();
 
@@ -39,6 +39,7 @@ class CommentController extends Controller
         if ($vid =  $request->get('video_id') ) {
             $comments = $comments->where('video_id' , $vid);
         }
+
         return $comments->paginate();
     }
 

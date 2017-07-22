@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
@@ -49,6 +50,16 @@ class Video extends Model
         return $forUpdate ? $updateRule : $createRule;
     }
 
+    public function getCreatedAtAttribute($val)
+    {
+        return Carbon::parse($val)->diffForHumans();
+    }
+
+    public function getUpdatedAtAttribute($val)
+    {
+        return Carbon::parse($val)->toFormattedDateString();
+    }
+
     public function channel()
     {
         return $this->belongsTo(Channel::class);
@@ -66,5 +77,10 @@ class Video extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class)->select('id', 'name');
     }
 }

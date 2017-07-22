@@ -44431,14 +44431,56 @@ if (typeof jQuery === 'undefined') {
 
 
 var routes = [{
-	path: '/',
-	name: 'HomePage',
-	component: __webpack_require__(39)
+    path: '/',
+    name: 'HomePage',
+    component: __webpack_require__(39)
+}, {
+    path: '/trending',
+    name: 'TrendingPage',
+    component: __webpack_require__(63)
+}, {
+    path: '/subscriptions',
+    name: 'SubscriptionPage',
+    component: __webpack_require__(66)
+}, {
+    path: '/channel/:id/:slug',
+    name: 'ChannelPage',
+    component: __webpack_require__(69),
+    props: true
+}, {
+    path: '/video/:id/:slug',
+    name: 'VideoDetailPage',
+    component: __webpack_require__(72),
+    props: true
+}, {
+    path: '/upload',
+    name: 'UploadPage',
+    component: __webpack_require__(75),
+    beforeEnter: function beforeEnter(to, from, next) {
+        if (window.Laravel.hasOwnProperty('Auth')) {
+            next(true);
+        } else {
+            next(false);
+            alert('Please login to upload a video');
+        }
+    }
+}, {
+    path: '/account',
+    name: 'AccountPage',
+    component: __webpack_require__(78),
+    beforeEnter: function beforeEnter(to, from, next) {
+        if (window.Laravel.hasOwnProperty('Auth')) {
+            next(true);
+        } else {
+            next(false);
+            alert('Please login to access your account page.');
+        }
+    }
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
-	routes: routes,
-	linkActiveClass: 'is-active'
+    routes: routes,
+    linkActiveClass: 'is-active'
 }));
 
 /***/ }),
@@ -45256,6 +45298,1860 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(64),
+  /* template */
+  __webpack_require__(65),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/Trending.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Trending.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5395d72e", Component.options)
+  } else {
+    hotAPI.reload("data-v-5395d72e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            videos: {
+                data: []
+            },
+            categories: []
+        };
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        this.$Progress.start();
+        // change the title of page
+        window.document.title = 'Trending on QTube';
+
+        axios.get('/api/videos?trending=true&categories=true').then(function (res) {
+            _this.$Progress.finish();
+            _this.videos = res.data;
+            _this.categories = res.data.categories;
+        }).catch(function (err) {
+            _this.$Progress.finish();
+            console.log(err);
+        });
+
+        console.log('Trending Component mounted.');
+    }
+});
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-sm-6"
+  }, [_c('div', {
+    staticClass: "dropdown"
+  }, [_vm._m(0), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu",
+    attrs: {
+      "aria-labelledby": "dropdownMenu1"
+    }
+  }, _vm._l((_vm.categories), function(cat) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v(_vm._s(cat.name))])])
+  }))])]), _vm._v(" "), _vm._m(1)])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('video-thumb', {
+    attrs: {
+      "list": _vm.videos.data
+    }
+  }), _vm._v(" "), _vm._m(2)], 1)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default dropdown-toggle",
+    attrs: {
+      "type": "button",
+      "id": "dropdownMenu1",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "true"
+    }
+  }, [_vm._v("\n                                    Trending in Category\n                                    "), _c('span', {
+    staticClass: "caret"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-sm-6 text-right"
+  }, [_c('h5', [_vm._v("Category Name")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', {
+    staticClass: "text-center pager"
+  }, [_c('a', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "href": "#",
+      "role": "button"
+    }
+  }, [_vm._v("Load More")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5395d72e", module.exports)
+  }
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(67),
+  /* template */
+  __webpack_require__(68),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/Subscription.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Subscription.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-484882b4", Component.options)
+  } else {
+    hotAPI.reload("data-v-484882b4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    }
+});
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-body"
+  }, [_c('p', {
+    staticClass: "alert alert-info text-center"
+  }, [_vm._v("I am leaving subscription system up to you to develop. If you need any help let me know in comments.")]), _vm._v(" "), _c('div', {
+    staticClass: "media"
+  }, [_c('div', {
+    staticClass: "media-left media-middle"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('img', {
+    staticClass: "media-object",
+    attrs: {
+      "width": "94",
+      "src": "/img/avatar-placeholder.jpg",
+      "alt": "..."
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "media-body"
+  }, [_c('h4', {
+    staticClass: "media-heading"
+  }, [_c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_vm._v("Channel")])]), _vm._v(" "), _c('div', {
+    staticClass: "btn-group btn-group-sm",
+    attrs: {
+      "role": "group",
+      "aria-label": "..."
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-subscribe btn-primary"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-play"
+  }), _vm._v(" UnSubscribe")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "disabled": ""
+    }
+  }, [_vm._v("56,454")])]), _vm._v(" "), _c('p', [_vm._v("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut commodi eveniet illo inventore molestiae neque nihil odio officiis, sunt voluptatum? Aut consequatur labore molestiae possimus quia sapiente veniam! Alias, quibusdam.")])])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._v("\n                    List of Video from this Channel\n                ")])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-484882b4", module.exports)
+  }
+}
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(70),
+  /* template */
+  __webpack_require__(71),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/Channel.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Channel.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03358a0a", Component.options)
+  } else {
+    hotAPI.reload("data-v-03358a0a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['id'],
+
+    data: function data() {
+        return {
+            channel: {
+                cover: '',
+                data: [],
+                videos: { data: [] },
+                user: {}
+            }
+        };
+    },
+    mounted: function mounted() {
+        this.getChannel();
+        console.log('Component mounted.');
+    },
+
+
+    methods: {
+        getChannel: function getChannel() {
+            var _this = this;
+
+            this.$Progress.start();
+
+            axios.get('/api/channels/' + this.id + '?videos=true').then(function (res) {
+                _this.$Progress.finish();
+                _this.channel = res.data;
+
+                // change the title of page
+                window.document.title = _this.channel.name;
+            }).catch(function (err) {
+                _this.$Progress.finish();
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-10 col-md-offset-1"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-cover",
+    style: ({
+      'background-image': 'url(' + _vm.channel.cover + ')'
+    })
+  }, [_c('div', {
+    staticClass: "media"
+  }, [_c('div', {
+    staticClass: "media-left"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('img', {
+    staticClass: "media-object",
+    attrs: {
+      "src": _vm.channel.logo,
+      "alt": _vm.channel.name
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "media-body"
+  }, [_c('h4', {
+    staticClass: "media-heading"
+  }, [_vm._v(_vm._s(_vm.channel.name))]), _vm._v(" "), _vm._m(0)])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("\n                    Recent Videos\n                ")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('video-thumb', {
+    attrs: {
+      "list": _vm.channel.videos.data
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("\n                    About\n                ")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('p', [_vm._v(_vm._s(_vm.channel.about))]), _vm._v(" "), _c('p', [_vm._v("Author "), _c('span', {
+    staticClass: "text-dark"
+  }, [_vm._v(_vm._s(_vm.channel.user.name))])])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "btn-group btn-group-sm",
+    attrs: {
+      "role": "group",
+      "aria-label": "..."
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-subscribe btn-primary"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-play"
+  }), _vm._v(" Subscribe")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "disabled": "disabled"
+    }
+  }, [_vm._v("56,454")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-03358a0a", module.exports)
+  }
+}
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(73),
+  /* template */
+  __webpack_require__(74),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/VideoDetail.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VideoDetail.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-139b11b3", Component.options)
+  } else {
+    hotAPI.reload("data-v-139b11b3", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['id', 'slug'],
+    data: function data() {
+        return {
+            video: {
+                channel: {
+                    id: 1,
+                    logo: '/img/avatar-placeholder.jpg'
+                },
+                category: {},
+                related: []
+            },
+            comments: {
+                data: []
+            },
+            newComment: null,
+            loading: false,
+            commenting: false,
+            youtubeId: false
+        };
+    },
+
+
+    watch: {
+        '$route': function $route(to, from) {
+            this.getVideo();
+            this.fetchComments();
+        }
+    },
+
+    mounted: function mounted() {
+        this.getVideo();
+        this.fetchComments();
+        console.log('Video Details Component mounted.', this.id);
+    },
+
+
+    methods: {
+        getVideo: function getVideo() {
+            var _this = this;
+
+            this.$Progress.start();
+            axios.get('/videos/' + this.id + '?related=true').then(function (res) {
+                _this.$Progress.finish();
+                _this.video = res.data;
+
+                // set the youtube id if its youtube video
+                _this.youtubeId = _this.isYoutube(_this.video.url);
+
+                // change the title of page
+                window.document.title = _this.video.title;
+            }).catch(function (err) {
+                _this.$Progress.finish();
+            });
+        },
+        videoThumb: function videoThumb(thumb) {
+            return "http://lorempixel.com/660/366/?" + this.video.id;
+        },
+        canComment: function canComment() {
+            return Laravel.hasOwnProperty('Auth');
+        },
+        fetchComments: function fetchComments(url) {
+            var _this2 = this;
+
+            url = url || '/comments?video_id=' + this.id;
+
+            this.loading = true;
+            axios.get(url).then(function (res) {
+                _this2.loading = false;
+                _this2.comments = res.data;
+            }).catch(function (err) {
+                _this2.loading = false;
+            });
+        },
+        saveComment: function saveComment() {
+            var vm = this;
+            vm.commenting = true;
+
+            axios.post('/comments', {
+                body: this.newComment,
+                video_id: this.video.id
+            }).then(function (res) {
+                vm.newComment = '';
+                vm.comments.data.unshift(res.data);
+                vm.commenting = false;
+            }).catch(function (error) {
+                console.log(error);
+                vm.commenting = false;
+            });
+        },
+        deleteComment: function deleteComment(index) {
+            var vm = this;
+            var comment = vm.comments.data[index];
+
+            if (window.confirm('Are sure want to delete this comment?')) {
+                vm.$Progress.start();
+                axios.delete('/comments/' + comment.id).then(function (res) {
+                    vm.comments.data.splice(index, 1);
+                    vm.$Progress.finish();
+                }).catch(function (error) {
+                    console.log(error);
+                    vm.$Progress.finish();
+                });
+            }
+        },
+        isYoutube: function isYoutube(url) {
+            var pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+            var matches = url.match(pattern);
+            if (matches) {
+                return matches[1];
+            }
+            return false;
+        }
+    }
+});
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-7"
+  }, [_c('div', {
+    staticClass: "video-player"
+  }, [(_vm.youtubeId) ? _c('div', {
+    staticClass: "videoWrapper"
+  }, [_c('iframe', {
+    attrs: {
+      "width": "560",
+      "height": "349",
+      "src": 'http://www.youtube.com/embed/' + _vm.youtubeId + '?rel=0&hd=1&autoplay=1&showinfo=0',
+      "frameborder": "0",
+      "allowfullscreen": ""
+    }
+  })]) : _vm._e(), _vm._v(" "), (!_vm.youtubeId) ? _c('div', {
+    staticClass: "video-card"
+  }, [_c('img', {
+    staticClass: "img-responsive",
+    attrs: {
+      "src": _vm.videoThumb(_vm.video.thumbnail),
+      "alt": ""
+    }
+  })]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "video-desc"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.video.title))]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('div', {
+    staticClass: "media"
+  }, [_c('div', {
+    staticClass: "media-left media-middle"
+  }, [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'ChannelPage',
+        params: {
+          id: _vm.video.channel_id,
+          slug: _vm.$root.slug(_vm.video.channel.name)
+        }
+      }
+    }
+  }, [_c('img', {
+    staticClass: "media-object",
+    attrs: {
+      "src": _vm.video.channel.logo,
+      "alt": "avatar"
+    }
+  })])], 1), _vm._v(" "), _c('div', {
+    staticClass: "media-body"
+  }, [_c('h4', {
+    staticClass: "media-heading"
+  }, [_c('router-link', {
+    attrs: {
+      "to": {
+        name: 'ChannelPage',
+        params: {
+          id: _vm.video.channel_id,
+          slug: _vm.$root.slug(_vm.video.channel.name)
+        }
+      }
+    }
+  }, [_vm._v("\n                                                " + _vm._s(_vm.video.channel.name) + "\n                                            ")]), _vm._v(_vm._s(_vm.video.created_at))], 1), _vm._v(" "), _vm._m(0)])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4 text-right view-count"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.video.views) + " view" + _vm._s(_vm.video.views > 1 ? 's' : ''))])])])])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-body"
+  }, [_c('h5', {
+    staticClass: "text-dark"
+  }, [_vm._v("Published on " + _vm._s(_vm.video.updated_at))]), _vm._v(" "), _c('div', {
+    staticClass: "desc-text"
+  }, [_c('p', [_vm._v(_vm._s(_vm.video.description))])]), _c('p'), _vm._v(" "), _c('h5', {
+    staticClass: "text-dark"
+  }, [_vm._v("Category "), _c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_vm._v(_vm._s(_vm.video.category.name))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading comment-box"
+  }, [_vm._v("Comment")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [(_vm.canComment()) ? _c('div', {
+    staticClass: "media"
+  }, [_c('div', {
+    staticClass: "media-left"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('img', {
+    staticClass: "media-object",
+    attrs: {
+      "width": "48",
+      "src": _vm.$root.auth.avatar,
+      "alt": _vm.$root.auth.name
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "media-body"
+  }, [_c('form', {
+    attrs: {
+      "method": "post",
+      "action": ""
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.saveComment()
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newComment),
+      expression: "newComment"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "comment",
+      "placeholder": 'Commenting as ' + _vm.$root.auth.name
+    },
+    domProps: {
+      "value": (_vm.newComment)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newComment = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "text-right"
+  }, [_c('button', {
+    staticClass: "btn btn-sm btn-default",
+    attrs: {
+      "type": "reset",
+      "disabled": !_vm.newComment || _vm.commenting
+    },
+    on: {
+      "click": function($event) {
+        _vm.newComment = null
+      }
+    }
+  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-sm btn-info",
+    attrs: {
+      "type": "submit",
+      "disabled": !_vm.newComment || _vm.commenting
+    }
+  }, [_c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.commenting),
+      expression: "commenting"
+    }],
+    staticClass: "glyphicon glyphicon-refresh spin"
+  }), _vm._v(" Comment\n                                    ")])])])])]) : _vm._e(), _vm._v(" "), (!_vm.canComment()) ? _c('div', {
+    staticClass: "text-center"
+  }, [_vm._v("\n                        Please "), _c('a', {
+    staticClass: "btn btn-xs btn-primary",
+    attrs: {
+      "href": "/login"
+    }
+  }, [_vm._v("Login")]), _vm._v(" to post comment.\n                    ")]) : _vm._e(), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "comment-thread"
+  }, [_c('div', {
+    staticClass: "discussions"
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticClass: "text-center"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-refresh spin"
+  })]), _vm._v(" "), _c('h5', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.comments.data.length),
+      expression: "comments.data.length"
+    }]
+  }, [_vm._v("COMMENTS • " + _vm._s(_vm.comments.data.length))]), _vm._v(" "), _vm._l((_vm.comments.data), function(comment, index) {
+    return _c('div', {
+      staticClass: "media"
+    }, [_c('div', {
+      staticClass: "media-left media-top"
+    }, [_c('a', {
+      attrs: {
+        "href": ""
+      }
+    }, [_c('img', {
+      staticClass: "media-object",
+      attrs: {
+        "width": "48",
+        "src": comment.user.avatar,
+        "alt": comment.user.name
+      }
+    })])]), _vm._v(" "), _c('div', {
+      staticClass: "media-body"
+    }, [_c('div', {
+      staticClass: "dropdown pull-right"
+    }, [_vm._m(2, true), _vm._v(" "), _c('ul', {
+      staticClass: "dropdown-menu",
+      attrs: {
+        "aria-labelledby": "dropdownMenu1"
+      }
+    }, [(_vm.$root.auth && _vm.$root.auth.id == comment.user_id) ? _c('li', [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteComment(index)
+        }
+      }
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (!_vm.commenting),
+        expression: "!commenting"
+      }],
+      staticClass: "glyphicon glyphicon-trash text-danger"
+    }), _vm._v(" Delete")])]) : _vm._e(), _vm._v(" "), _vm._m(3, true)])]), _vm._v(" "), _c('h4', {
+      staticClass: "media-heading"
+    }, [_c('a', {
+      attrs: {
+        "href": ""
+      }
+    }, [_vm._v(_vm._s(comment.user.name))]), _vm._v(" "), _c('small', [_vm._v(_vm._s(comment.created_at))])]), _vm._v(" "), _c('p', {
+      staticClass: "desc-text"
+    }, [_vm._v(_vm._s(comment.body) + "﻿")])])])
+  })], 2)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-5"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-body video-aside"
+  }, _vm._l((_vm.video.related), function(related) {
+    return _c('div', {
+      staticClass: "media"
+    }, [_c('div', {
+      staticClass: "media-left"
+    }, [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'VideoDetailPage',
+          params: {
+            id: related.id,
+            slug: _vm.$root.slug(related.title)
+          }
+        }
+      }
+    }, [_c('img', {
+      staticClass: "media-object",
+      attrs: {
+        "src": related.thumbnail,
+        "alt": related.title
+      }
+    })])], 1), _vm._v(" "), _c('div', {
+      staticClass: "media-body"
+    }, [_c('h3', {
+      staticClass: "media-heading"
+    }, [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'VideoDetailPage',
+          params: {
+            id: related.id,
+            slug: _vm.$root.slug(related.title)
+          }
+        }
+      }
+    }, [_vm._v("\n                                    " + _vm._s(related.title) + "\n                                ")])], 1), _vm._v(" "), _c('p', [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'ChannelPage',
+          params: {
+            id: related.channel_id,
+            slug: _vm.$root.slug(related.channel.name)
+          }
+        }
+      }
+    }, [_vm._v("\n                                    " + _vm._s(related.channel.name) + "\n                                ")]), _vm._v(" "), _c('br'), _vm._v("\n                                " + _vm._s(related.views) + " views • " + _vm._s(related.created_at) + "\n                            ")], 1)])])
+  }))])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "btn-group btn-group-sm",
+    attrs: {
+      "role": "group",
+      "aria-label": "..."
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-subscribe btn-primary"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-play"
+  }), _vm._v(" Subscribe")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "disabled": ""
+    }
+  }, [_vm._v("56,454")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "panel-body video-footer"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-plus"
+  }), _vm._v(" Add to ")]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-share"
+  }), _vm._v(" Share ")]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-option-horizontal"
+  }), _vm._v(" More ")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4 text-right"
+  }, [_c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-thumbs-up"
+  }), _vm._v(" 32 ")]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": ""
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-thumbs-down"
+  }), _vm._v(" 12 ")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-sm btn-default dropdown-toggle",
+    attrs: {
+      "type": "button",
+      "id": "dropdownMenu1",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "true"
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-option-vertical"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-flag"
+  }), _vm._v(" Report It")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-139b11b3", module.exports)
+  }
+}
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(76),
+  /* template */
+  __webpack_require__(77),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/Upload.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Upload.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3b588a4a", Component.options)
+  } else {
+    hotAPI.reload("data-v-3b588a4a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            video: {},
+            videos: {
+                data: []
+            },
+            categories: [],
+            loading: false,
+            videoThumb: '/img/video-thumb-placeholder.png'
+        };
+    },
+    mounted: function mounted() {
+        this.getVideoAndCategories();
+        console.log('Upload Component mounted.');
+    },
+
+
+    methods: {
+        getVideoAndCategories: function getVideoAndCategories() {
+            var _this = this;
+
+            this.$Progress.start();
+            // change the title of page
+            window.document.title = 'Upload a Video on QTube';
+
+            axios.get('/videos?trending=true&categories=true').then(function (res) {
+                _this.$Progress.finish();
+                _this.videos = res.data;
+                _this.categories = res.data.categories;
+            }).catch(function (err) {
+                _this.$Progress.finish();
+                console.log(err);
+            });
+        },
+        uploadVideo: function uploadVideo() {
+            var vm = this;
+            vm.loading = true;
+
+            // add other fields
+            vm.video.thumbnail = vm.videoThumb;
+            vm.video.channel_id = vm.$root.channel.id;
+
+            axios.post('/api/videos', vm.video).then(function (res) {
+                vm.video = {};
+                vm.loading = false;
+                alert('Video has been uploaded, Go to home page to see it.');
+            }).catch(function (error) {
+                console.log(error);
+                vm.loading = false;
+            });
+        },
+        validateYoutubeUrl: function validateYoutubeUrl() {
+            var videoCode = this.isYoutube(this.video.url);
+            if (videoCode) {
+                this.videoThumb = 'http://img.youtube.com/vi/' + videoCode + '/mqdefault.jpg';
+            } else {
+                alert('URL is not a valid youtube video url.');
+            }
+        },
+        isYoutube: function isYoutube(url) {
+            var pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+            var matches = url.match(pattern);
+            if (matches) {
+                return matches[1];
+            }
+            return false;
+        }
+    }
+});
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-10 col-md-offset-1"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Upload a Video")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('form', {
+    staticClass: "form-horizontal",
+    attrs: {
+      "method": "post"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.uploadVideo()
+      }
+    }
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-sm-2 control-label",
+    attrs: {
+      "for": "category"
+    }
+  }, [_vm._v("Category")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-10"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.video.category_id),
+      expression: "video.category_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "name": "category",
+      "id": "category"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.video.category_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.categories), function(cat) {
+    return _c('option', {
+      domProps: {
+        "value": cat.id
+      }
+    }, [_vm._v(_vm._s(cat.name))])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-sm-2 control-label",
+    attrs: {
+      "for": "url"
+    }
+  }, [_vm._v("Video URL")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-10"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.video.url),
+      expression: "video.url"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "type": "url",
+      "id": "url",
+      "placeholder": "YouTube video url"
+    },
+    domProps: {
+      "value": (_vm.video.url)
+    },
+    on: {
+      "blur": function($event) {
+        _vm.validateYoutubeUrl()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.video.url = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-sm-2 control-label",
+    attrs: {
+      "for": "title"
+    }
+  }, [_vm._v("Title")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-10"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.video.title),
+      expression: "video.title"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "required": "",
+      "type": "text",
+      "id": "title",
+      "placeholder": "Title of Video"
+    },
+    domProps: {
+      "value": (_vm.video.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.video.title = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-sm-2 control-label",
+    attrs: {
+      "for": "desc"
+    }
+  }, [_vm._v("Description")]), _vm._v(" "), _c('div', {
+    staticClass: "col-sm-10"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.video.description),
+      expression: "video.description"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "minlength": "10",
+      "required": "",
+      "id": "desc",
+      "placeholder": "Description for video"
+    },
+    domProps: {
+      "value": (_vm.video.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.video.description = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "col-sm-offset-2 col-sm-10"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "disabled": _vm.loading,
+      "type": "submit"
+    }
+  }, [_c('span', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.loading),
+      expression: "loading"
+    }],
+    staticClass: "glyphicon glyphicon-refresh spin"
+  }), _vm._v(" Upload\n                                        ")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "reset",
+      "disabled": _vm.loading
+    }
+  }, [_vm._v("Cancel")])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('img', {
+    staticClass: "img-responsive",
+    attrs: {
+      "src": _vm.videoThumb,
+      "alt": ""
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Trending Videos")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('video-thumb', {
+    attrs: {
+      "list": _vm.videos.data
+    }
+  })], 1)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', {
+    staticClass: "alert text-center alert-warning"
+  }, [_vm._v("Choose a Category & Paste "), _c('a', {
+    attrs: {
+      "href": "https://www.youtube.com/",
+      "target": "_blank"
+    }
+  }, [_vm._v("Youtube")]), _vm._v(" video link.")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3b588a4a", module.exports)
+  }
+}
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(79),
+  /* template */
+  __webpack_require__(80),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/tapash/code/lavimeo-app/resources/assets/js/pages/Account.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Account.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-267ef234", Component.options)
+  } else {
+    hotAPI.reload("data-v-267ef234", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    }
+});
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row mt"
+  }, [_c('div', {
+    staticClass: "col-md-10"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Latest Videos")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('video-thumb', {
+    attrs: {
+      "list": _vm.$root.auth.Videos
+    }
+  }), _vm._v(" "), (!_vm.$root.auth.Videos.length) ? _c('p', {
+    staticClass: "text-center"
+  }, [_vm._v("You don't have any video uploaded yet.")]) : _vm._e()], 1)]), _vm._v(" "), _c('h4', [_vm._v("OAuth Management")]), _vm._v(" "), _c('passport-clients'), _vm._v(" "), _c('passport-authorized-clients'), _vm._v(" "), _c('passport-personal-access-tokens')], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('div', {
+    staticClass: "text-center mt"
+  }, [_c('img', {
+    staticClass: "img-circle",
+    attrs: {
+      "src": _vm.$root.auth.avatar,
+      "alt": _vm.$root.auth.name
+    }
+  }), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.$root.auth.name) + " "), _c('br'), _vm._v(" "), _c('small', [_vm._v(_vm._s(_vm.$root.auth.email))])])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-267ef234", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

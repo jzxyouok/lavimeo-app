@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Comment extends Model
 {
@@ -33,6 +34,11 @@ class Comment extends Model
             'body' => 'required|min:3'
         ];
         return $forUpdate ? $updateRule : $createRule;
+    }
+
+     public function getCreatedAtAttribute($val)
+    {
+        return Carbon::parse($val)->diffForHumans();
     }
 
     public function user()

@@ -69,7 +69,14 @@ class ChannelController extends Controller
      */
     public function show($id)
     {
-        return $this->model->with('user')->findOrFail($id);
+        $channel = $this->model->with('user')->findOrFail($id);
+
+        // check for videos
+        if( $request->has('videos') ) {
+            $channel->videos = $channel->videos()->with(['channel', 'category'])->latest()->paginate(8);
+        }
+
+        return $channel;
     }
 
     /**
@@ -92,14 +99,17 @@ class ChannelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validateBeforeUpdate($request);
+        $this->beforeUpdate($request);
+
         // validate the channel id belongs to user
         if( ! $request->user()->channels()->find($id) ) {
             return $this->errorForbidden('You can only edit your channel.');
         }
+
         if (! $this->model->update($request->only($this->model->getModel()->fillable), $id) ) {
             return $this->errorBadRequest('Unable to update.');
         }
+
         return $this->model->find($id);
     }
 

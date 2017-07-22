@@ -15,7 +15,7 @@ Route::resource('channels', 'ChannelController',[ 'except' => [
 	'create', 'edit'
 ]]);
 
-Route::resource('commnets', 'CommentController',[ 'except' => [
+Route::resource('comments', 'CommentController',[ 'except' => [
 	'create', 'edit'
 ]]);
 
