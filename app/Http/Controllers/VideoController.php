@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Category;
 use App\Video;
 use App\Repositories\ModelHelper as Model;
 use App\Error\ErrorHandler;
