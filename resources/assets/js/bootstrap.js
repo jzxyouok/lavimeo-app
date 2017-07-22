@@ -1,3 +1,11 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import axios from 'axios';
+
+
+window.Vue = require('vue');
+Vue.use(VueRouter);
+
 
 window._ = require('lodash');
 

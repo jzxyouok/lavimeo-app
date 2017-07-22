@@ -1,11 +1,11 @@
 <?php
 
 
-Route::get('/', 'VideoController@index');
-/**
- * videos route except create, edit
- * @link(https://laravel.com/docs/5.4/controllers#resource-controllers)
- */
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 Route::resource('videos', 'VideoController',[ 'except' => [
 	'create', 'edit'
 ]]);
